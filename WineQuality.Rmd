@@ -1,0 +1,10 @@
+---
+title: "TeamBees"
+output: html_document
+date: "2023-10-17"
+---
+
+```{r 1, include=TRUE, results='asis'}
+df=read.csv("winequalityN.csv")
+head(df)
+```
