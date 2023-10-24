@@ -20,6 +20,9 @@ output:
 # include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
 library(ezids)
 library(tidyverse) 
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
 # knitr::opts_chunk$set(warning = F, results = "markup", message = F)
 knitr::opts_chunk$set(warning = F, results = "hide", message = F)
 options(scientific=T, digits = 3) 
@@ -27,6 +30,12 @@ options(scientific=T, digits = 3)
 # ‘scipen’: integer. A penalty to be applied when deciding to print numeric values in fixed or exponential notation.  Positive values bias towards fixed and negative towards scientific notation: fixed notation will be preferred unless it is more than ‘scipen’ digits wider.
 # use scipen=999 to prevent scientific notation at all times
 ```
+
+
+# WINE!!!
+
+Through this project we embark on an exhilarating journey through the world of wine, where we explore the delicate art of predicting wine quality. With each sip and swirl, we delve into the enchanting realm of data analysis and visualization, uncovering the hidden gems within the chemical attributes that define wine excellence. 
+
 
 **Loading the Dataset**
 ```{r load, include=TRUE, results='asis'}
@@ -79,16 +88,120 @@ Now, the data is clean. We have NAs, and duplicates. We can now start our explor
 
 1) There is a big difference between maximum value and Q3 values. This means that there are a quite a lot of outliers. Let's visualize this using plots.
 
+
+## UNIVARIATE PLOTS
+
+To understand in depth as to which factor effects the quality the most, let's understand the individual variables in the data set.
+
+```{r quality , include=TRUE, results='asis'}
+ggplot(data = wine, aes(x = quality)) +
+  geom_bar(width = 0.8, color = 'black', fill = I('red')) +
+  labs(
+    title = "Overall Wine Quality",
+    x = "Quality",
+    y = "Count"
+  )
+```
+
+
+Wine quality shows a rather symmetrical distribution. 
+Most wines have a quality score of 6. 
+No wine achieved the highest score of 10 and the worst wines got a rating of 3. 
+
+Let's see how the other factors are effecting!
+
+```{r univariate1, include=TRUE, results='asis'}
+p1 <- ggplot(data = wine, aes(x = citric.acid)) +
+  geom_bar(fill = I('blue')) +
+  labs(
+    title = "Citric Acidity",
+    x = "Concentration [g/L]",
+    y = "Count"
+  )
+
+p2 <- ggplot(data = wine, aes(x = pH)) +
+  geom_bar( fill = I('blue')) +
+  labs(
+    title = "pH",
+    x = "pH",
+    y = "Count"
+  )
+p3 <- ggplot(data = wine, aes(x = residual.sugar)) +
+  geom_histogram(binwidth = 1,  fill = I('blue')) +
+  labs(
+    title = "Residual Sugar",
+    x = "Residual Sugar (g/L)",
+    y = "Count"
+  )
+p4 <- ggplot(data = wine, aes(x = density)) +
+  geom_histogram(binwidth = 0.002,  fill = I('blue')) +
+  labs(
+    title = "Density",
+    x = "Density",
+    y = "Count"
+  )
+p5 <- ggplot(data = wine, aes(x = chlorides)) +
+  geom_histogram(binwidth = 0.005,  fill = I('blue')) +
+  labs(
+    title = "Chlorides",
+    x = "Chloride Content (g/L)",
+    y = "Count"
+  )
+p6 <-  ggplot(data = wine, aes(x = alcohol)) +
+  geom_histogram(binwidth = 1,  fill = I('blue')) +
+  labs(
+    title = "Alcohol Content",
+    x = "Alcohol Content (% by volume)",
+    y = "Count"
+  )
+grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
+```
+
+
+```{r univariate2, include=TRUE, results='asis'}
+p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
+  geom_bar( fill = I('blue')) +
+  labs(
+    title = "Fixed Acidity",
+    x = "TaOH Concentration [g/L]",
+    y = "Count"
+  )
+
+ p8 <- ggplot(data = wine, aes(x = volatile.acidity)) +
+  geom_bar(  fill = I('blue')) +
+  labs(
+    title = "Volatile Acidity",
+    x = "AcOH Concentration [g/L]",
+    y = "Count"
+  )
+ 
+ p9 <- ggplot(wine, aes(x = free.sulfur.dioxide)) +
+  geom_histogram(binwidth = 5,  fill = I('blue')) +
+  labs(
+    title = "Free Sulfur Dioxide Concentration",
+    x = "Concentration (mg/L)",
+    y = "Frequency"
+  )
+
+ p10 <- ggplot(wine, aes(x = total.sulfur.dioxide)) +
+  geom_histogram(binwidth = 20, fill = "blue") +
+  labs(
+    title = "Total Sulfur Dioxide Concentration",
+    x = "Concentration (mg/L)",
+    y = "Frequency"
+  )
+
+grid.arrange(p7,p8, p9,p10, nrow = 2)
+
+```
+
+*Observations:*
+
+1) Most distributions encountered during the exploration of the parameters looked rather usual. In general, they were positively skewed with a narrow main peak.
+
 ##Subset the dataset into red and white wines
 
 ```{r subsetting, include=TRUE, results='asis'}
-
-library(dplyr)
-library(ggplot2)
-
-# Read the wine dataset
-wine<- read.csv("winequalityN.csv")
-
 # Subset the dataset into red and white wines
 red_wines <- wine[wine$type == "red", ]
 white_wines <- wine[wine$type == "white", ]
