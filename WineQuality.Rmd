@@ -1,10 +1,81 @@
 ---
-title: "TeamBees"
-output: html_document
-date: "2023-10-17"
+title: "Wine Quality Prediction"
+author: "Tanmay Ambegaokar, Bhuimka Mallikarjun , Kundana Chowdary Cherukuri, Jagadeeshwar Kalyanapu"
+date: "`r Sys.Date()`"
+# date: ""
+output:
+  html_document:
+    code_folding: hide
+    number_sections: false
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
 ---
 
-```{r 1, include=TRUE, results='asis'}
-df=read.csv("winequalityN.csv")
-head(df)
+```{r init, include=FALSE}
+# some of common options (and the defaults) are: 
+# include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
+library(ezids)
+library(tidyverse) 
+# knitr::opts_chunk$set(warning = F, results = "markup", message = F)
+knitr::opts_chunk$set(warning = F, results = "hide", message = F)
+options(scientific=T, digits = 3) 
+# options(scipen=9, digits = 3) 
+# ‘scipen’: integer. A penalty to be applied when deciding to print numeric values in fixed or exponential notation.  Positive values bias towards fixed and negative towards scientific notation: fixed notation will be preferred unless it is more than ‘scipen’ digits wider.
+# use scipen=999 to prevent scientific notation at all times
 ```
+
+**Loading the Dataset**
+```{r load, include=TRUE, results='asis'}
+
+wine=read.csv("winequalityN.csv")
+xkabledplyhead(wine)
+xkabledplytail(wine)
+str(wine)
+```
+
+
+
+We have succesfully loaded the dataset. We can see that there are 6497 observations and 13 variables. Next lets look at the summary statistics. 
+
+**SUMMARY STATISTICS**
+```{r summary, include=TRUE, results='asis'}
+xkablesummary(wine)
+```
+
+A quick look at the summary tells us the inter-quartile ranges and maximum and minimum values for each variable.
+
+*Observations*
+
+2) There are also some NA values which we need to remove.
+3) There might be duplicates in the dataset.
+
+**CLEANING THE DATA**
+
+**Removing Duplicates**
+```{r cleanduplicates, include=TRUE, results='asis'}
+wine <- unique(wine)
+str(wine)
+```
+
+Duplicates can cause issues later with biases. Thus, we have removed the duplicate values. Now, the dataset has 5329 observations.
+
+**Removing NAs**
+```{r removeNA, include=TRUE, results='asis'}
+wine <- na.omit(wine)
+str(wine)
+xkablesummary(wine)
+```
+
+
+After, removing the NAs, we are finally left with 5295 observations. The dataset is now clean.
+
+Now, the data is clean. We have NAs, and duplicates. We can now start our exploratory data analysis. 
+
+*Observations*
+
+1) There is a big difference between maximum value and Q3 values. This means that there are a quite a lot of outliers. Let's visualize this using plots.
+
