@@ -79,3 +79,19 @@ Now, the data is clean. We have NAs, and duplicates. We can now start our explor
 
 1) There is a big difference between maximum value and Q3 values. This means that there are a quite a lot of outliers. Let's visualize this using plots.
 
+##Subset the dataset into red and white wines
+
+```{r subsetting, include=TRUE, results='asis'}
+
+library(dplyr)
+library(ggplot2)
+
+# Read the wine dataset
+wine<- read.csv("winequalityN.csv")
+
+# Subset the dataset into red and white wines
+red_wines <- wine[wine$type == "red", ]
+white_wines <- wine[wine$type == "white", ]
+```
+
+This code will generate two new data frames, red_wines and white_wines, each containing observations from the original dataset with the "type" column set to "red" or "white," as appropriate.
