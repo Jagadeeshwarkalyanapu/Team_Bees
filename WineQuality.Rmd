@@ -199,6 +199,39 @@ grid.arrange(p7,p8, p9,p10, nrow = 2)
 
 1) Most distributions encountered during the exploration of the parameters looked rather usual. In general, they were positively skewed with a narrow main peak.
 
+We will also have a look at at the box plots for these!
+
+```{r boxplots, include=TRUE, results='asis'}
+p1 <- ggplot(data = wine, aes(x = "", y = fixed.acidity )) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Fixed Acidity",
+    y = "TaOH Concentration [g/L]"
+  )
+
+p2 <- ggplot(data = wine, aes(x = "", y = volatile.acidity)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Volatile Acidity",
+    y = "AcOH Concentration [g/L]"
+  )
+
+ p3 <- ggplot(data = wine, aes(x = "", y = citric.acid)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Citric Acidity",
+    y = "Concentration [g/L]"
+  )
+
+ p4 <- ggplot(data = wine, aes(x = "", y = pH))+
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "pH",
+    y = "pH"
+  )
+grid.arrange(p1,p2, p3,p4, nrow = 1)
+```
+
 ##Subset the dataset into red and white wines
 
 ```{r subsetting, include=TRUE, results='asis'}
