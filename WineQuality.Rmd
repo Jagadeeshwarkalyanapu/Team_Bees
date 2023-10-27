@@ -232,6 +232,60 @@ p2 <- ggplot(data = wine, aes(x = "", y = volatile.acidity)) +
 grid.arrange(p1,p2, p3,p4, nrow = 1)
 ```
 
+
+**Observations**
+1) Residual sugar has a very long-tail distribution with many outliers. It will be interesting to see how these outliers affect the quality of wine.
+2) Chlorides have distribution similar to residual sugar and have a strong concentration around the median. We also note a lot of outliers from the box plot.
+3) Most wines have less than 11% alcohol.
+4) Density has a very normal looking distribution with most of the values falling between 0.995 and 1.
+
+
+**SUMMARY FROM UNIVARIATE PLOTS**
+1)  In general, the variables were positively skewed with a narrow main peak.
+2) Most wines have a pH of 3.2. Since we have chlorides,citric acid, and fixed and volatile acidity, the wines were bound to be on the acidic side.
+3) The wines have an alcohol content ranging between 8 and 15 vol%.
+
+
+**BIVARIATE PLOTS**
+
+First, we will build correlation matrix to identify the variables which influence quality the most. 
+```{r cor, results='asis'}
+
+numeric_data <- subset(wine, select = -c(type))
+redd <- subset(wine, type == "red")
+numeric_datared <- subset(redd, select = -c(type))
+whited <- subset(wine, type == "white")
+numeric_datawhite <- subset(whited, select = -c(type))
+loadPkg("corrplot")
+cor_matrix <-cor(numeric_data)
+corrplot(cor_matrix, method="circle",type="upper")
+numeric_data <- subset(wine, select = -c(type))
+
+
+```
+
+
+**Observations**
+Our Target Variable is Quality, so we will focus on only those parameters which influence quality.
+
+1) Alcohol and quality have a high positive correlation.
+2) Density and quality have a negative correlation.
+3) Low correlation between quality and chloride concentration
+4) Wine quality also slightly negatively correlates with volatile acidity.
+5) It has a slight positive correlation with citric acid.
+
+From the correlation matrix, let us now see how these parameters vary over different quality ratings.
+
+**ALCOHOL VS QUALITY**
+```{r alcqual, results='asis'}
+library(ggplot2)
+ggplot(wine, aes(x = as.factor(quality), y = alcohol)) +
+  geom_boxplot(fill = "brown", color = "darkblue") +
+  labs(x = "Wine Quality", y = "Alcohol") +
+  ggtitle("Box Plot of Alcohol vs Quality")
+```
+
+
 ##Subset the dataset into red and white wines
 
 ```{r subsetting, include=TRUE, results='asis'}
@@ -241,3 +295,24 @@ white_wines <- wine[wine$type == "white", ]
 ```
 
 This code will generate two new data frames, red_wines and white_wines, each containing observations from the original dataset with the "type" column set to "red" or "white," as appropriate.
+
+
+The boxplot shows that wines with higher quality seem to have a higher alcohol content. Let us check how it varies for red and white wine
+
+```{r colalc,results='asis'}
+library(ggplot2)
+red <- subset(wine, type == "red")
+white <- subset(wine, type == "white")
+ggplot() +
+  
+  geom_boxplot(data = red, aes(x = as.factor(quality), y = alcohol, fill = "red"), width = 0.4) +
+  labs(x = "Wine Quality", y = "Alcohol", fill = "Wine Color") +
+  ggtitle("Box Plot of Alcohol vs Quality for Red Wines") +
+  scale_fill_manual(values = c("red" = "red"))
+
+ggplot() +
+  geom_boxplot(data = white, aes(x = as.factor(quality), y = alcohol, fill = "white"), width = 0.4) +
+  labs(x = "Wine Quality", y = "Alcohol", fill = "Wine Color") +
+  ggtitle("Box Plot of Alcohol vs Quality for White Wines") +
+  scale_fill_manual(values = c("white" = "white"))
+```
