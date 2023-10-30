@@ -328,3 +328,21 @@ ggplot(wine, aes(x = factor(quality), y = density)) +
   ylim(0, 1.01)  # Adjust the limits as needed
 
 ```
+
+The boxplot shows that wines with higher quality seem to have a less denser. Let us check how it varies for red and white wine
+
+```{r alcqual, results='asis'}
+# Box Plot of Density vs Quality for Red Wines
+ggplot() +
+  geom_boxplot(data = red, aes(x = as.factor(quality), y = density, fill = "light coral"), width = 0.4) +
+  labs(x = "Wine Quality", y = "Density", fill = "light coral") +
+  ggtitle("Box Plot of Density vs Quality for Red Wines") +
+  scale_fill_manual(values = c("light coral" = "light coral"))
+
+# Box Plot of Density vs Quality for White Wines
+ggplot() +
+  geom_boxplot(data = white, aes(x = as.factor(quality), y = density, fill = "red"), width = 0.4) +
+  labs(x = "Wine Quality", y = "Density", fill = "red") +
+  ggtitle("Box Plot of Density vs Quality for White Wines") +
+  scale_fill_manual(values = c("red" = "red"))
+```
