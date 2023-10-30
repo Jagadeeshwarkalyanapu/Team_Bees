@@ -316,3 +316,15 @@ ggplot() +
   ggtitle("Box Plot of Alcohol vs Quality for White Wines") +
   scale_fill_manual(values = c("white" = "white"))
 ```
+
+**DENSITY VS QUALITY**
+```{r alcqual, results='asis'}
+library(ggplot2)
+# Density Distribution by Wine Quality
+ggplot(wine, aes(x = factor(quality), y = density)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(x = "Quality", y = "Density") +
+  ggtitle("Density Distribution by Wine Quality")
+  ylim(0, 1.01)  # Adjust the limits as needed
+
+```
