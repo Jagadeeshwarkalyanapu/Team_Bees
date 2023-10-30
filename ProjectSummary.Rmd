@@ -1,0 +1,99 @@
+---
+title: "WINE QUALITY ANALYSIS SUMMARY"
+author:  "Tanmay Ambegaokar, Bhumika Mallikarjun , Kundana Chowdary Cherukuri, Jagadeeshwar Kalyanapu"
+date: "`r Sys.Date()`"
+output: rmdformats::downcute
+#output: rmdformats::robobook
+#output: rmdformats::readthedown
+
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+### Why Choose This Topic
+
+Wine making is an intricate process, with many chemical and physical variables influencing the quality and taste of the final product. According to the Grand View Research the United States wine market size was estimated at $63.69 billion in 2021. As wine consumers ourselves, our team wanted to better understand the key drivers of wine quality using data-driven techniques. 
+
+Prior studies have examined the chemical properties of wines, but few have conducted extensive statistical analysis to relate these properties to overall quality ratings from wine experts. Our goal was to bridge this gap using exploratory data analysis and statistical modeling.
+
+The analysis will shed light on the factors that contribute to the quality of both red and white wines. It will examine the various chemical components that make up each type of wine. These ingredients each have a distinct relationship with the resulting character of the red or white wine. Understanding these relationships is valuable for wine drinkers who have preferences for certain styles of wine. 
+
+It is also useful for winemakers aiming to produce wines with desired qualities. Additionally, distributors can leverage insights into how chemical composition influences wine quality to better market and sell wines to consumers. In summary, taking a detailed look at the chemical makeup of wines and how it impacts overall quality will provide meaningful insights for wine consumers, producers, and distributors alike.
+
+With all this being said, this project will look into the quality of red and white wine. For the purpose of this project, the analysis team will be looking at chemical characteristics of the wine, which include: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulfates, and alcohol content level. The following characteristics were used to drive the decision on the output variable, quality, determined for the wine.
+
+## Literature Review
+
+
+
+## Data Description
+The dataset includes two tables, one for the red wine and one for the white wine. All of the variables in both datasets are synonymous, thus only one data understanding table was constructed. The exact number of columns and rows for each table (type of wine) is included below:
+
+Winequality-red
+12 columns x 1,599 rows
+
+Winequality-white
+12 columns x 4,898 rows
+
+The different columns present are type, fixed acidity,	volatile acidity,	citric acid,	residual sugar,	chlorides,	free sulfur dioxide,	total sulfur dioxide,	density, pH,	sulphates, alcohol, quality. 
+
+We use quality as our base factor and have constructed our analysis around. The Quality ranges from 3 - 9, where *3 - Bad Qualtiy* and *9 - Good Quality* and all that is in between is said to be *Average Quality* wine!
+
+
+### Limitations of the Dataset(s)
+
+Although we have a very descriptive dataset that is perfect for our analysis, we have to mention that the amount of data present for white wine is comparitively more that red wine. This may or may not effect our analysis, but we are sure to answer this at the end of our analysis.
+
+## Research Questions - SMART QUESTIONS!
+
+1.	Which chemical attribute has the most significant influence on wine quality?
+2.	How does the distribution of sugar, sulfate, chloride, pH, and alcohol content change over different quality categories?
+3.	From the above analysis how is it different between red and white wine?
+
+
+### Evolution of Questions
+
+Before we began with our analysis as a data scientists, we questioned ourselves based on our previous experiences of having tasted wine that in general what would effect the overall quality. We summarized that maybe the amount of alcohol present would effect it or the sweetness of the wine, or maybe even the acidity could be an influential factor. Keeping these thoughts in mind we wanted to see if our initial assumptions were true or were we going to find something more interesting through our analysis and also determine to what extent these factors effect the quality!
+
+
+## Exploratory Data Analysis (EDA)
+
+
+
+## Statistical Tests
+
+
+
+### Results
+
+
+
+## Interpretation
+
+
+
+## Conclusions
+
+
+
+## Additional Insights
+
+
+
+## References
+
+
+
+
+
+
+
+
+
+
+
