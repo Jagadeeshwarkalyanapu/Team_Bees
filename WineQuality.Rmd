@@ -411,5 +411,11 @@ ggplot(red, aes(x = factor(quality), y = citric.acid)) +
   labs(x = "Quality", y = "Citric Acid") +
   ggtitle("Citric Acid Distribution by Red Wine Quality")
   ylim(0.0,0.15)
+  
+  ggplot(white, aes(x = factor(quality), y = citric.acid)) +
+  geom_boxplot(fill = "maroon") +
+  labs(x = "Quality", y = "Citric Acid") +
+  ggtitle("Citric Acid Distribution by White Wine Quality")
+  ylim(0.0,0.15)
 
 ```
