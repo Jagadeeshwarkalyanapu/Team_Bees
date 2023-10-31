@@ -1,28 +1,42 @@
 ---
 title: "Wine Quality Prediction"
-author: "Tanmay Ambegaokar, Bhuimka Mallikarjun , Kundana Chowdary Cherukuri, Jagadeeshwar Kalyanapu"
+author: "Tanmay Ambegaokar, Bhumika Mallikarjun , Kundana Chowdary Cherukuri, Jagadeeshwar Kalyanapu"
 date: "`r Sys.Date()`"
 # date: ""
 output:
-  html_document:
-    code_folding: hide
-    number_sections: false
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
+  rmdformats::readthedown:
+    # code_folding: hide
+    # number_sections: false
+    # df_print: "kable"
+    # toc: yes
+    # toc_depth: 3
+    # toc_float: yes
+      toc_float: true
+      toc_depth: 3
+      number_sections: false
+      code_folding: hide
+      df_print: "kable"
+  # pdf_document:
+  #   toc: yes
+  #   toc_depth: '3'
 ---
 
-```{r init, include=FALSE}
-# some of common options (and the defaults) are: 
-# include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
+
+```{r init, include=F}
+# The package "ezids" (EZ Intro to Data Science) includes a lot of the helper functions we developed for the course. 
+# Some of the frequently used functions are loadPkg(), xkabledply(), xkablesummary(), uzscale(), etc.
+# Once installed, load the library.
 library(ezids)
 library(tidyverse) 
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+```
+
+
+```{r setup, include=FALSE}
+# some of common options (and the defaults) are: 
+# include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
 # knitr::opts_chunk$set(warning = F, results = "markup", message = F)
 knitr::opts_chunk$set(warning = F, results = "hide", message = F)
 options(scientific=T, digits = 3) 
@@ -37,21 +51,21 @@ options(scientific=T, digits = 3)
 Through this project we embark on an exhilarating journey through the world of wine, where we explore the delicate art of predicting wine quality. With each sip and swirl, we delve into the enchanting realm of data analysis and visualization, uncovering the hidden gems within the chemical attributes that define wine excellence. 
 
 
-**Loading the Dataset**
+## LOADING THE DATASETs
 ```{r load, include=TRUE, results='asis'}
 
 wine=read.csv("winequalityN.csv")
 xkabledplyhead(wine)
 xkabledplytail(wine)
-str(wine)
+#xkablesummary(wine)
 ```
 
 
 
 We have succesfully loaded the dataset. We can see that there are 6497 observations and 13 variables. Next lets look at the summary statistics. 
 
-**SUMMARY STATISTICS**
-```{r summary, include=TRUE, results='asis'}
+## SUMMARY STATISTICS
+```{r summary, results='asis'}
 xkablesummary(wine)
 ```
 
@@ -59,23 +73,23 @@ A quick look at the summary tells us the inter-quartile ranges and maximum and m
 
 *Observations*
 
-2) There are also some NA values which we need to remove.
-3) There might be duplicates in the dataset.
+1) There are also some NA values which we need to remove.
+2) There might be duplicates in the dataset.
 
-**CLEANING THE DATA**
+## CLEANING THE DATA
 
 **Removing Duplicates**
 ```{r cleanduplicates, include=TRUE, results='asis'}
 wine <- unique(wine)
-str(wine)
+xkablesummary(wine)
 ```
 
 Duplicates can cause issues later with biases. Thus, we have removed the duplicate values. Now, the dataset has 5329 observations.
 
-**Removing NAs**
+**Removing NA Values**
 ```{r removeNA, include=TRUE, results='asis'}
 wine <- na.omit(wine)
-str(wine)
+# str(wine)
 xkablesummary(wine)
 ```
 
@@ -91,15 +105,15 @@ Now, the data is clean. We have NAs, and duplicates. We can now start our explor
 
 ## UNIVARIATE PLOTS
 
-To understand in depth as to which factor effects the quality the most, let's understand the individual variables in the data set.
+To understand in depth as to which factor effects the quality the most, let's look at the individual variables in the data set.
 
 ```{r quality , include=TRUE, results='asis'}
 ggplot(data = wine, aes(x = quality)) +
-  geom_bar(width = 0.8, color = 'black', fill = I('red')) +
+  geom_bar(width = 0.8, color = 'black', fill = I('yellow')) +
   labs(
     title = "Overall Wine Quality",
     x = "Quality",
-    y = "Count"
+    y = "Data - Red & white wine"
   )
 ```
 
@@ -116,7 +130,7 @@ p1 <- ggplot(data = wine, aes(x = citric.acid)) +
   labs(
     title = "Citric Acidity",
     x = "Concentration [g/L]",
-    y = "Count"
+    y = "Data"
   )
 
 p2 <- ggplot(data = wine, aes(x = pH)) +
@@ -124,35 +138,35 @@ p2 <- ggplot(data = wine, aes(x = pH)) +
   labs(
     title = "pH",
     x = "pH",
-    y = "Count"
+    y = "Data"
   )
 p3 <- ggplot(data = wine, aes(x = residual.sugar)) +
   geom_histogram(binwidth = 1,  fill = I('blue')) +
   labs(
     title = "Residual Sugar",
     x = "Residual Sugar (g/L)",
-    y = "Count"
+    y = "Data"
   )
 p4 <- ggplot(data = wine, aes(x = density)) +
   geom_histogram(binwidth = 0.002,  fill = I('blue')) +
   labs(
     title = "Density",
     x = "Density",
-    y = "Count"
+    y = "Data"
   )
 p5 <- ggplot(data = wine, aes(x = chlorides)) +
   geom_histogram(binwidth = 0.005,  fill = I('blue')) +
   labs(
     title = "Chlorides",
     x = "Chloride Content (g/L)",
-    y = "Count"
+    y = "Data"
   )
 p6 <-  ggplot(data = wine, aes(x = alcohol)) +
   geom_histogram(binwidth = 1,  fill = I('blue')) +
   labs(
     title = "Alcohol Content",
     x = "Alcohol Content (% by volume)",
-    y = "Count"
+    y = "Data"
   )
 grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
 ```
@@ -164,7 +178,7 @@ p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
   labs(
     title = "Fixed Acidity",
     x = "TaOH Concentration [g/L]",
-    y = "Count"
+    y = "Data"
   )
 
  p8 <- ggplot(data = wine, aes(x = volatile.acidity)) +
@@ -172,7 +186,7 @@ p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
   labs(
     title = "Volatile Acidity",
     x = "AcOH Concentration [g/L]",
-    y = "Count"
+    y = "Data"
   )
  
  p9 <- ggplot(wine, aes(x = free.sulfur.dioxide)) +
@@ -180,7 +194,7 @@ p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
   labs(
     title = "Free Sulfur Dioxide Concentration",
     x = "Concentration (mg/L)",
-    y = "Frequency"
+    y = "Data"
   )
 
  p10 <- ggplot(wine, aes(x = total.sulfur.dioxide)) +
@@ -188,7 +202,7 @@ p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
   labs(
     title = "Total Sulfur Dioxide Concentration",
     x = "Concentration (mg/L)",
-    y = "Frequency"
+    y = "Data"
   )
 
 grid.arrange(p7,p8, p9,p10, nrow = 2)
@@ -233,20 +247,21 @@ grid.arrange(p1,p2, p3,p4, nrow = 1)
 ```
 
 
-**Observations**
+*Observations*
+
 1) Residual sugar has a very long-tail distribution with many outliers. It will be interesting to see how these outliers affect the quality of wine.
 2) Chlorides have distribution similar to residual sugar and have a strong concentration around the median. We also note a lot of outliers from the box plot.
 3) Most wines have less than 11% alcohol.
 4) Density has a very normal looking distribution with most of the values falling between 0.995 and 1.
 
 
-**SUMMARY FROM UNIVARIATE PLOTS**
+## SUMMARY FROM UNIVARIATE PLOTS
 1)  In general, the variables were positively skewed with a narrow main peak.
 2) Most wines have a pH of 3.2. Since we have chlorides,citric acid, and fixed and volatile acidity, the wines were bound to be on the acidic side.
 3) The wines have an alcohol content ranging between 8 and 15 vol%.
 
 
-**BIVARIATE PLOTS**
+## BIVARIATE PLOTS
 
 First, we will build correlation matrix to identify the variables which influence quality the most. 
 ```{r cor, results='asis'}
@@ -265,7 +280,8 @@ numeric_data <- subset(wine, select = -c(type))
 ```
 
 
-**Observations**
+*Observations*
+
 Our Target Variable is Quality, so we will focus on only those parameters which influence quality.
 
 1) Alcohol and quality have a high positive correlation.
@@ -276,7 +292,7 @@ Our Target Variable is Quality, so we will focus on only those parameters which 
 
 From the correlation matrix, let us now see how these parameters vary over different quality ratings.
 
-**ALCOHOL VS QUALITY**
+## ALCOHOL VS QUALITY
 ```{r alcqual, results='asis'}
 library(ggplot2)
 ggplot(wine, aes(x = as.factor(quality), y = alcohol)) +
@@ -286,7 +302,7 @@ ggplot(wine, aes(x = as.factor(quality), y = alcohol)) +
 ```
 
 
-##Subset the dataset into red and white wines
+## SUBSETTING DATA INTO RED AND WHITE WINEs
 
 ```{r subsetting, include=TRUE, results='asis'}
 # Subset the dataset into red and white wines
@@ -317,8 +333,8 @@ ggplot() +
   scale_fill_manual(values = c("white" = "white"))
 ```
 
-**DENSITY VS QUALITY**
-```{r alcqual, results='asis'}
+## DENSITY VS QUALITY
+```{r alcqual2, results='asis'}
 library(ggplot2)
 # Density Distribution by Wine Quality
 ggplot(wine, aes(x = factor(quality), y = density)) +
@@ -331,7 +347,7 @@ ggplot(wine, aes(x = factor(quality), y = density)) +
 
 The boxplot shows that wines with higher quality seem to have a less denser. Let us check how it varies for red and white wine
 
-```{r alcqual, results='asis'}
+```{r alcqual3, results='asis'}
 # Box Plot of Density vs Quality for Red Wines
 ggplot() +
   geom_boxplot(data = red, aes(x = as.factor(quality), y = density, fill = "light coral"), width = 0.4) +
