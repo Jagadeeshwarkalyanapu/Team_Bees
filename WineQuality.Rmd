@@ -362,3 +362,13 @@ ggplot() +
   ggtitle("Box Plot of Density vs Quality for White Wines") +
   scale_fill_manual(values = c("red" = "red"))
 ```
+
+**CHLORIDES VS QUALITY**
+
+```{r alcqual2, results='asis'}
+ggplot(wine, aes(x = factor(quality), y = chlorides)) +
+  geom_boxplot(fill = "lightcoral") +
+  labs(x = "Quality", y = "Chlorides") +
+  ggtitle("Chloride Distribution by Wine Quality") +
+  ylim(0, 0.2)
+```
