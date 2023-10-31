@@ -11,6 +11,7 @@ output: rmdformats::downcute
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ezids)
 ```
 
 ## Introduction
@@ -27,9 +28,6 @@ It is also useful for winemakers aiming to produce wines with desired qualities.
 
 With all this being said, this project will look into the quality of red and white wine. For the purpose of this project, the analysis team will be looking at chemical characteristics of the wine, which include: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulfates, and alcohol content level. The following characteristics were used to drive the decision on the output variable, quality, determined for the wine.
 
-## Literature Review
-
-
 
 ## Data Description
 The dataset includes two tables, one for the red wine and one for the white wine. All of the variables in both datasets are synonymous, thus only one data understanding table was constructed. The exact number of columns and rows for each table (type of wine) is included below:
@@ -40,9 +38,41 @@ Winequality-red
 Winequality-white
 12 columns x 4,898 rows
 
-The different columns present are type, fixed acidity,	volatile acidity,	citric acid,	residual sugar,	chlorides,	free sulfur dioxide,	total sulfur dioxide,	density, pH,	sulphates, alcohol, quality. 
+```{r head, echo=FALSE}
+wine <- read.csv("winequalityN.csv")
+xkabledplyhead(wine)
+```
+
+The different columns present are 
+
+1. Type
+
+2. Fixed Acidity
+
+3. Volatile Acidity
+
+4. Citric Acid
+
+5. Residual Sugar
+
+6. Chlorides
+
+7. Free Sulfur Dioxide
+
+8. Total Sulfur Dioxide
+
+9. Density
+
+10. pH
+
+11. Sulphates
+
+12. Alcohol
+
+13. Quality
 
 We use quality as our base factor and have constructed our analysis around. The Quality ranges from 3 - 9, where *3 - Bad Qualtiy* and *9 - Good Quality* and all that is in between is said to be *Average Quality* wine!
+
 
 
 ### Limitations of the Dataset(s)
@@ -51,15 +81,59 @@ Although we have a very descriptive dataset that is perfect for our analysis, we
 
 ## Research Questions - SMART QUESTIONS!
 
-1.	Which chemical attribute has the most significant influence on wine quality?
-2.	How does the distribution of sugar, sulfate, chloride, pH, and alcohol content change over different quality categories?
-3.	From the above analysis how is it different between red and white wine?
+1.	Which chemical attribute has the most **significant** influence on wine quality?
+2.	How does the distribution of sugar, sulfate, chloride, pH, and alcohol content change over             **different quality categories**?
+3.	From the above analysis how is it **different between red and white wine?**
 
+
+The target variable for our research project is : **QUALITY**
 
 ### Evolution of Questions
 
 Before we began with our analysis as a data scientists, we questioned ourselves based on our previous experiences of having tasted wine that in general what would effect the overall quality. We summarized that maybe the amount of alcohol present would effect it or the sweetness of the wine, or maybe even the acidity could be an influential factor. Keeping these thoughts in mind we wanted to see if our initial assumptions were true or were we going to find something more interesting through our analysis and also determine to what extent these factors effect the quality!
 
+
+## Data Cleaning
+
+The data which we have right now is in unclean. Meaning that there are a lot of NA values and duplicates. The first step of any data science project is to clean the data.
+
+Right now, we have **6497 rows and 13 variables.**
+
+Steps to clean the data:
+
+1. Remove NA values
+
+```{r cleanna,echo=FALSE}
+wine <- na.omit(wine)
+```
+
+2. Remove duplicate values.
+
+```{r clean, echo=FALSE}
+wine <- unique(wine)
+```
+
+The clean data has **5295 rows and 13 variables**. It is free from NA values and duplicates and now can be used for further exploratory data analysis.
+
+## Summary Statistics
+
+Now, that we have a completely clean data lets look at the summary statistics of the dataset.
+
+```{r summary, echo=FALSE}
+xkablesummary(wine)
+```
+
+A quick look at the summary table tells us that:
+
+1. Two columns are characters- Type and Quality.
+
+2. The other nine columns are numeric in nature.
+
+3. We can see that for most of our columns, the **Mean > Median**. This means our data has a positive skew.
+
+4. There are quite a few outliers as the maximum value is very large compared to the Q3 values.
+
+Our next step is to visualize these using plots.
 
 ## Exploratory Data Analysis (EDA)
 
