@@ -372,3 +372,16 @@ ggplot(wine, aes(x = factor(quality), y = chlorides)) +
   ggtitle("Chloride Distribution by Wine Quality") +
   ylim(0, 0.2)
 ```
+
+The boxplot shows that wines with higher quality seem to have a less chlorides. Let us check how it varies for red and white wine
+
+```{r alcqual2, results='asis'}
+ggplot(red, aes(x = factor(quality), y = chlorides)) +
+  geom_boxplot(fill = "yellow") +
+  labs(x = "Quality", y = "Chlorides") +
+  ggtitle("Chloride Distribution by Wine Quality (Red Wine)") +
+  ylim(0, 0.3)
+
+
+
+```
