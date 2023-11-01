@@ -691,6 +691,22 @@ ALTERNATE HYPOTHESIS (H1): There is a significant difference in mean chloride co
 
 We carried out separate ANOVA tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean chloride content across all categories of both the wine.
 
+
+### **4. Citric acid vs Quality**
+
+WELCH TWO SAMPLE T-TEST:
+
+NULL HYPOTHESIS (H0): There is no significant mean difference in citric acid content between red and white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant mean difference between the two wines.
+
+We found that the p-value is less than 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean citric acid concentration between red and white wine.
+
+ANOVA TEST FOR RED AND WHITE WINE:
+
+NULL HYPOTHESIS (H0): There is no significant difference in mean citric acid content across quality categories in red wine/white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant difference in mean citric acid content across quality categories in red wine/white wine.
+
+We carried out separate tests for each wine and we found that the p-value for red is less than 0.05, where as for the white wine the p value is greater than 0.05, Hence we reject the null hypothesis for red wine only and concluded that there is a significant difference in mean citric content in red wine.
 ----------------------------------------------------------------------------------------------
 
 
