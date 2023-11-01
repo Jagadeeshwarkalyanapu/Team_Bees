@@ -738,6 +738,26 @@ tukey_test
    So, we reject the null hypothesis and conclude that there is a significant difference in mean          citric acid level across all categories of red wine.
 
 
+
+**CORRELATION FOR THE BI-VARIATE PLOTS.**
+
+```{r ,results='asis'}
+
+library(corrplot)
+white_wine_data_clean <- na.omit(white_wine_data[, c("citric.acid", "chlorides","density",  "alcohol")])
+
+red_wine_data_clean <- na.omit(red_wine_data[, c("citric.acid", "chlorides","density", "alcohol")])
+
+correlation_matrix_white <- cor(white_wine_data_clean)
+correlation_matrix_red <- cor(red_wine_data_clean)
+
+combined_correlation_matrix <- (correlation_matrix_white + correlation_matrix_red) / 2
+
+corrplot(correlation_matrix_white, method = "color", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "red")
+
+```
+
+
 ## SUMMARY OF BIVARIATE PLOTS
 
 From the bivariate plots, we have concluded that :
