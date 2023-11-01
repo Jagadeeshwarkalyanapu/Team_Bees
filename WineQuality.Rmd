@@ -297,8 +297,8 @@ cor_matrix <-cor(numeric_data)
 corrplot(cor_matrix, method="circle",type="upper")
 numeric_data <- subset(wine, select = -c(type))
 
-
 ```
+
 
 
 **Observations:**
@@ -331,7 +331,7 @@ We will now subset the data into white and red wine separately to go ahead with 
 
 ## BIVARIATE PLOTS
 
-Through our correlation plot we have understood that Alcohol content, density, citric acid and chloride are the ones that are affecting the quality the most, let us see how and also make a comapritive analysis between red and white wine individually!
+Through our correlation plot we have understood that Alcohol content, density, citric acid and chloride are the ones that are affecting the quality the most, let us see how and also make a comparitive analysis between red and white wine individually!
 
 
 ## 1. ALCOHOL VS QUALITY
@@ -442,7 +442,7 @@ library(ggplot2)
 ggplot(wine, aes(x = factor(quality), y = density)) +
   geom_boxplot(fill = "lightblue") +
   labs(x = "Quality", y = "Density") +
-  ggtitle("Density Distribution by Wine Quality")
+  ggtitle("Density Distribution by Wine Quality")+
   ylim(0, 1.01)  # Adjust the limits as needed
 
 ```
@@ -791,7 +791,11 @@ ggplot(wine, aes(x = sulphates, y = residual.sugar, color = factor(type))) +
 
 Although we thoroughly believe in our analysis, we have to mention a few anomalies that are present that may or may not have influenced the results.
 
-The number of data that we have on white wine is comparatively more than that of red wine. We have also observed that most of the data present are in the average quality range i.e, from 4-8.
+1. The number of data that we have on white wine is comparatively more than that of red wine. 
+
+2. We have also observed that most of the data present are in the average quality range i.e, from 4-8.
+
+For a better analysis, we need a more balanced data.
 
 ## CONCLUSION
 
