@@ -12,6 +12,7 @@ output: rmdformats::downcute
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ezids)
+library(ggplot2)
 ```
 
 ## Introduction
@@ -136,30 +137,46 @@ A quick look at the summary table tells us that:
 Our next step is to visualize these using plots.
 
 ## Exploratory Data Analysis (EDA)
-
+```{r quality , echo=FALSE }
+ggplot(data = wine, aes(x = quality)) +
+  geom_bar(width = 0.8, color = 'black', fill = I('yellow')) +
+  labs(
+    title = "Overall Wine Quality",
+    x = "Quality",
+    y = "Data - Red & white wine"
+  )
+```
 
 
 ## Statistical Tests
 
-
-
-### Results
-
-
-
-## Interpretation
+We have prformned vaious tst to suppor our anaysis. 
 
 
 
-## Conclusions
+## Results
+
+1. Wines with elevated alcohol content, increased citric acid levels, lower density, and reduced chlorides tend to exhibit higher quality.
+
+2. It appears that white wines, in general, tend to be sweeter and have higher alcohol content when compared to their red counterparts.
 
 
+## Conclusions:
+
+From our analysis we definitely did find something interesting! Not just the alcohol content or the sugar or acidity but factors such as density and chlorides make a substantial difference in the quality of wine and also are one among the factors that makes red and white wine standout from each other!
+
+Now You know which and what kind of wine to buy!!
 
 ## Additional Insights
 
-
+As interesting as it was performing these analysis, we would like to enhance furthur more to find better results. We would want to expand our dataset with more attributes and work on a prediction model that will povide more comprehensive results. 
 
 ## References
+
+We have included necessary citation for the data set from: 
+
+P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553, 2009.
+The dataset is also avalible on kaggle.
 
 
 
