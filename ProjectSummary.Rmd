@@ -658,6 +658,24 @@ ALTERNATE HYPOTHESIS (H1): There is significant difference in mean alcohol conte
 
 We carried out separate tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean alcohol content across all categories of both the wine.
 
+
+### 2. Density vs Quality**
+
+WELCH TWO SAMPLE T-TEST:
+
+NULL HYPOTHESIS (H0): There is no significant mean difference in density between red and white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant mean difference between the two wines.
+
+Perform the Welch two-sample t-test for density and calculate the p-value. If the p-value is less than 0.05, reject the null hypothesis and conclude that there is a significant difference in mean density between red and white wine.
+
+ANOVA TEST FOR RED AND WHITE WINE:
+
+NULL HYPOTHESIS (H0): There is no significant difference in mean density across quality categories in red wine/white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant difference in mean density across quality categories in red wine/white wine.
+
+Perform separate ANOVA tests for red and white wine to determine if there is a significant difference in mean density across all quality categories for each wine. If the p-value for either red or white wine is less than 0.05, reject the null hypothesis and conclude that there is a significant difference in mean density across all quality categories.
+
+
 ----------------------------------------------------------------------------------------------
 
 
