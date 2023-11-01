@@ -755,16 +755,16 @@ tukey_test
 ```{r ,results='asis'}
 
 library(corrplot)
-white_wine_data_clean <- na.omit(white[, c("citric.acid", "chlorides","density",  "alcohol")])
+white <- na.omit(white[, c("citric.acid", "chlorides","density",  "alcohol")])
 
-red_wine_data_clean <- na.omit(red[, c("citric.acid", "chlorides","density", "alcohol")])
+red <- na.omit(red[, c("citric.acid", "chlorides","density", "alcohol")])
 
-correlation_matrix_white <- cor(white_wine_data_clean)
-correlation_matrix_red <- cor(red_wine_data_clean)
+correlation_matrix_white <- cor(white)
+correlation_matrix_red <- cor(red)
 
 combined_correlation_matrix <- (correlation_matrix_white + correlation_matrix_red) / 2
 
-corrplot(correlation_matrix_white, method = "color", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "red")
+corrplot(combined_correlation_matrix, method = "color", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "red")
 
 ```
 
@@ -772,10 +772,10 @@ corrplot(correlation_matrix_white, method = "color", type = "upper", tl.col = "b
 
 **Observations:**
 
-Data cleaning is performed on both white_wine_data and red_wine_data in the above code, deleting rows with missing values in certain columns.
+Data cleaning is performed on both white and red in the above code, deleting rows with missing values in certain columns.
 Correlation matrices are subsequently computed for the cleaned datasets.
 The correlation matrices from the white and red wine datasets are averaged in the combined correlation matrix.
-A correlation plot with a customized appearance is built for the white wine dataset.
+A correlation plot with a customized appearance is built.
 
 ----------------------------------------------------------------------------------------------
 
