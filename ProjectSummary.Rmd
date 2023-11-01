@@ -659,21 +659,21 @@ ALTERNATE HYPOTHESIS (H1): There is significant difference in mean alcohol conte
 We carried out separate tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean alcohol content across all categories of both the wine.
 
 
-### 2. Density vs Quality**
+### **2. Density vs Quality**
 
 WELCH TWO SAMPLE T-TEST:
 
 NULL HYPOTHESIS (H0): There is no substantial mean density difference between red and white wine.
 ALTERNATE HYPOTHESIS (H1): The two wines have a considerable mean difference.
 
-Calculate the p-value using the Welch two-sample t-test for density. If the p-value is less than 0.05, the null hypothesis is rejected and a significant difference in mean density between red and white wine is concluded.
+We found that the p-value is less than 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean density concentration between red and white wine.
 
 RED AND WHITE WINE ANOVA TEST:
 
 NULL HYPOTHESIS (H0): There is no significant variation in mean density between red wine and white wine quality groups.
 ALTERNATE HYPOTHESIS (H1): There is a considerable difference in mean density between red wine and white wine quality groups.
 
-Separate ANOVA tests should be run for red and white wine to see if there is a significant difference in mean density across all quality categories for each wine. If the p-value for either red or white wine is less than 0.05, the null hypothesis is rejected and a significant difference in mean density across all quality categories is concluded.
+We carried out separate ANOVA tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean density content across all categories of both the wine.
 
 ----------------------------------------------------------------------------------------------
 
