@@ -12,7 +12,11 @@ output: rmdformats::downcute
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ezids)
+library(tidyverse) 
+library(dplyr)
 library(ggplot2)
+library(gridExtra)
+library(knitr)
 ```
 
 ## Introduction
@@ -114,7 +118,8 @@ wine <- na.omit(wine)
 wine <- unique(wine)
 ```
 
-The clean data has **5295 rows and 13 variables**. It is free from NA values and duplicates and now can be used for further exploratory data analysis.
+The clean data has **5295 rows and 13 variables**. It is free from NA values and duplicates and now can be used for further exploratory data analysis. 
+
 
 ## Summary Statistics
 
@@ -130,13 +135,17 @@ A quick look at the summary table tells us that:
 
 2. The other nine columns are numeric in nature.
 
-3. We can see that for most of our columns, the **Mean > Median**. This means our data has a positive skew.
+3. We can see that for most of our columns, the **Mean > Median**. This means our data has a positive     skew.
 
-4. There are quite a few outliers as the maximum value is very large compared to the Q3 values.
+4. One can see that most characteristics have some significant outliers as the maximum value is much      bigger than their third quantile.
 
 Our next step is to visualize these using plots.
 
 ## Exploratory Data Analysis (EDA)
+
+### Univariate Plots
+
+**1. Quality**
 ```{r quality , echo=FALSE }
 ggplot(data = wine, aes(x = quality)) +
   geom_bar(width = 0.8, color = 'black', fill = I('yellow')) +
@@ -147,10 +156,240 @@ ggplot(data = wine, aes(x = quality)) +
   )
 ```
 
+**Observations**
+
+1. Wine quality shows a rather symmetrical distribution. 
+
+2. Most wines have a quality score of 6. 
+
+3. No wine achieved the highest score of 10 and the worst wines got a rating of 3.
+
+**2. Acidity**
+
+```{r univariate2, echo=FALSE}
+p7 <- ggplot(data = wine, aes(x = fixed.acidity)) +
+  geom_bar( fill = I('blue')) +
+  labs(
+    title = "Fixed Acidity",
+    x = "TaOH Concentration [g/L]",
+    y = "Data"
+  )
+
+ p8 <- ggplot(data = wine, aes(x = volatile.acidity)) +
+  geom_bar(  fill = I('blue')) +
+  labs(
+    title = "Volatile Acidity",
+    x = "AcOH Concentration [g/L]",
+    y = "Data"
+  )
+ 
+p1 <- ggplot(data = wine, aes(x = citric.acid)) +
+  geom_bar(fill = I('blue')) +
+  labs(
+    title = "Citric Acidity",
+    x = "Concentration [g/L]",
+    y = "Data"
+  )
+
+p2 <- ggplot(data = wine, aes(x = pH)) +
+  geom_bar( fill = I('blue')) +
+  labs(
+    title = "pH",
+    x = "pH",
+    y = "Data"
+  )
+
+grid.arrange(p7,p8, p1,p2, nrow = 2)
+
+```
+
+
+```{r boxplotsacid, echo=FALSE}
+p1 <- ggplot(data = wine, aes(x = "", y = fixed.acidity )) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Fixed Acidity",
+    y = "TaOH Concentration [g/L]"
+  )
+
+p2 <- ggplot(data = wine, aes(x = "", y = volatile.acidity)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Volatile Acidity",
+    y = "AcOH Concentration [g/L]"
+  )
+
+ p3 <- ggplot(data = wine, aes(x = "", y = citric.acid)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Citric Acidity",
+    y = "Concentration [g/L]"
+  )
+
+ p4 <- ggplot(data = wine, aes(x = "", y = pH))+
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "pH",
+    y = "pH"
+  )
+grid.arrange(p1,p2, p3,p4, nrow = 1)
+```
+
+**Observations**
+
+1. Looking at the acidity parameters in boxplots gives a similar picture. One can see the long positive    tails of fixed and volatile acide concentrations.
+
+2. Citric Acid has a bimodal distribution.
+
+3. The pH level of wines has a normal distribution with median of 3.2
+
+**3. Sulphates**
+```{r sulphates, echo=FALSE}
+
+p8 <- ggplot(wine, aes(x = sulphates)) +
+  geom_histogram(binwidth = 0.01,  fill = I('blue')) +
+  labs(
+    title = "Sulphates",
+    x = "Concentration (mg/L)",
+    y = "Data"
+  )
+p9 <- ggplot(wine, aes(x = free.sulfur.dioxide)) +
+  geom_histogram(binwidth = 2,  fill = I('blue')) +
+  labs(
+    title = "Free Sulphur Dioxide Concentration",
+    x = "Concentration (g/L)",
+    y = "Data"
+  )
+
+ p10 <- ggplot(wine, aes(x = total.sulfur.dioxide)) +
+  geom_histogram(binwidth = 10, fill = "blue") +
+  labs(
+    title = "Total Sulfur Dioxide Concentration",
+    x = "Concentration (mg/L)",
+    y = "Data"
+  )
+
+grid.arrange(p8, p9,p10, nrow = 2)
+
+```
+
+```{r boxplotsulphates, echo=FALSE}
+p1 <- ggplot(data = wine, aes(x = "", y = free.sulfur.dioxide ))+ 
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Free Sulfur Dioxide",
+    y = "TaOH Concentration [g/L]"
+  )
+
+p2 <- ggplot(data = wine, aes(x = "", y = total.sulfur.dioxide)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Total Sulfur dioxide",
+    y = "AcOH Concentration [g/L]"
+  )
+
+ p3 <- ggplot(data = wine, aes(x = "", y = sulphates)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Sulphates",
+    y = "Concentration [g/L]"
+  )
+grid.arrange(p1, p2,p3, nrow = 2)
+```
+
+**Observations**
+
+1. Free sulfur dioxide concentration is narrowly centered around 30 mg/L. 
+
+2. Total sulfur dioxide concentration shows signs of bimodality with peaks around 20 and 120 mg/L.
+
+3. Most wines have a sulphate concentration around 0.5 g/L. Two small outlier groups around 1.6 and 1.9    g/L can be seen in the boxplot.
+
+**4. Sugar, Alcohol, Density, Chlorides Plots**
+```{r leftover, echo=FALSE}
+p3 <- ggplot(data = wine, aes(x = residual.sugar)) +
+  geom_histogram(binwidth = 1,  fill = I('blue')) +
+  labs(
+    title = "Residual Sugar",
+    x = "Residual Sugar (g/L)",
+    y = "Data"
+  )
+p4 <- ggplot(data = wine, aes(x = density)) +
+  geom_histogram(binwidth = 0.002,  fill = I('blue')) +
+  labs(
+    title = "Density",
+    x = "Density",
+    y = "Data"
+  )
+p5 <- ggplot(data = wine, aes(x = chlorides)) +
+  geom_histogram(binwidth = 0.005,  fill = I('blue')) +
+  labs(
+    title = "Chlorides",
+    x = "Chloride Content (g/L)",
+    y = "Data"
+  )
+p6 <-  ggplot(data = wine, aes(x = alcohol)) +
+  geom_histogram(binwidth = 1,  fill = I('blue')) +
+  labs(
+    title = "Alcohol Content",
+    x = "Alcohol Content (% by volume)",
+    y = "Data"
+  )
+grid.arrange(p3, p4,p5,p6, nrow = 2)
+```
+
+
+```{r boxplotleftover, echo=FALSE}
+p1 <- ggplot(data = wine, aes(x = "", y = residual.sugar))+ 
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Residual Sugar",
+    y = "Concentration [g/L]"
+  )
+
+p2 <- ggplot(data = wine, aes(x = "", y = density)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Density",
+    y = "g/cm"
+  )
+
+ p3 <- ggplot(data = wine, aes(x = "", y = alcohol)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Alcohol",
+    y = "vol%"
+  )
+  p4 <- ggplot(data = wine, aes(x = "", y = chlorides)) +
+  geom_boxplot(color = 'black', fill = I('white')) +
+  labs(
+    x = "Chloride",
+    y = "Concentration [g/L]"
+  )
+grid.arrange(p1, p2,p3,p4, nrow = 2)
+```
+
+**Observations**
+
+1. Generally, the wines in the data set appear to have low residual sugar concentrations. The positive    skewing moves the mean value (5.4) above the median (3.0). An extreme outlier can be found around 65    g/L residual sugar.
+
+2. The density parameter shows a very narrow distribution with low variation. One can see a few           outliers around 1.01 and 1.04 g/cm3 but most wines have a density between 0.99 and 1.00 g/cm3.
+
+3. The histogram showing the chlorine concentration in the data set has two distinct main peaks. The      most frequent chlorine concentrations can be found around 0.04 g/L. The second peak appears at about    0.08 g/L. The distribution has a very long tail in the positive direction with outliers up to 0.6      g/L.
+
+4. The alcohol content of the wines in the data set ranges between 8 and 15 vol%. The median lies         around 10 vol%. The distribution is rather wide and shows positive skewing.
+
+## Correlation Matrix
+
+
+
+
+
+
 
 ## Statistical Tests
 
-We have prformned vaious tst to suppor our anaysis. 
+We have prformned vaious tests to suppor our anaysis. 
 
 
 
