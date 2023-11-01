@@ -675,6 +675,22 @@ ALTERNATE HYPOTHESIS (H1): There is a considerable difference in mean density be
 
 We carried out separate ANOVA tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean density content across all categories of both the wine.
 
+### **3. Chloride vs Quality**
+
+WELCH TWO SAMPLE T-TEST:
+
+NULL HYPOTHESIS (H0): There is no significant mean difference in chloride concentration between red and white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant mean difference between the two wines.
+
+We found that the p-value is less than 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean chloride concentration between red and white wine.
+
+ANOVA TEST FOR RED AND WHITE WINE:
+
+NULL HYPOTHESIS (H0): There is no significant difference in mean chloride concentration across quality categories in red wine/white wine.
+ALTERNATE HYPOTHESIS (H1): There is a significant difference in mean chloride concentration across quality categories in red wine/white wine.
+
+We carried out separate ANOVA tests for each wine and we found that the p-value for both red and white wine are less that 0.05, we reject the null hypothesis and conclude that there is a significant difference in mean chloride content across all categories of both the wine.
+
 ----------------------------------------------------------------------------------------------
 
 
