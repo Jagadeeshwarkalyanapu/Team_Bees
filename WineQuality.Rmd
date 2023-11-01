@@ -755,16 +755,16 @@ tukey_test
 ```{r ,results='asis'}
 
 library(corrplot)
-white_wine_data_clean <- na.omit(white[, c("citric.acid", "chlorides","density",  "alcohol")])
+white <- na.omit(white[, c("citric.acid", "chlorides","density",  "alcohol")])
 
-red_wine_data_clean <- na.omit(red[, c("citric.acid", "chlorides","density", "alcohol")])
+red <- na.omit(red[, c("citric.acid", "chlorides","density", "alcohol")])
 
-correlation_matrix_white <- cor(white_wine_data_clean)
-correlation_matrix_red <- cor(red_wine_data_clean)
+correlation_matrix_white <- cor(white)
+correlation_matrix_red <- cor(red)
 
 combined_correlation_matrix <- (correlation_matrix_white + correlation_matrix_red) / 2
 
-corrplot(correlation_matrix_white, method = "color", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "red")
+corrplot(combined_correlation_matrix, method = "color", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "red")
 
 ```
 
