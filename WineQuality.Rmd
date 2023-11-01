@@ -758,6 +758,15 @@ corrplot(correlation_matrix_white, method = "color", type = "upper", tl.col = "b
 ```
 
 
+##OBSERAVTIONS
+
+Data cleaning is performed on both white_wine_data and red_wine_data in the above code, deleting rows with missing values in certain columns.
+Correlation matrices are subsequently computed for the cleaned datasets.
+The correlation matrices from the white and red wine datasets are averaged in the combined correlation matrix.
+A correlation plot with a customized appearance is built for the white wine dataset.
+
+
+
 ## SUMMARY OF BIVARIATE PLOTS
 
 From the bivariate plots, we have concluded that :
