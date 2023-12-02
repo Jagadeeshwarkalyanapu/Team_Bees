@@ -41,6 +41,23 @@ knitr::opts_chunk$set(warning = F, results = "hide", message = F)
 options(scientific=T, digits = 3) 
 ```
 
+```{r basic, include=F}
+# use this function to conveniently load libraries and work smoothly with knitting
+# can add quietly=T option to the require() function
+loadPkg = function(pkg, character.only = FALSE) { 
+  if (!character.only) { pkg <- as.character(substitute(pkg)) }
+  pkg <- ifelse(!character.only, as.character(substitute(pkg)) , pkg)  
+  if (!require(pkg,character.only=T, quietly =T)) {  install.packages(substitute(pkg),dep=T); if(!require(pkg,character.only=T)) stop("Package not found") } 
+}
+loadPkg(knitr)
+
+# unload/detact package when done using it
+unloadPkg = function(pkg, character.only = FALSE) { 
+  if(!character.only) { pkg <- as.character(substitute(pkg)) } 
+  search_item <- paste("package", pkg,sep = ":") 
+  while(search_item %in% search()) { detach(search_item, unload = TRUE, character.only = TRUE) } 
+}
+```
 
 # WINE!!!
 
@@ -844,7 +861,7 @@ For a better analysis, we need a more balanced data.
 
 ----------------------------------------------------------------------------------------------
 
-## CONCLUSION
+## CONCLUSIONS FROM EDA 
 
 In our preliminary analysis, we have uncovered some key insights:
 
@@ -855,5 +872,208 @@ In our preliminary analysis, we have uncovered some key insights:
 With this new found knowledge, you're better equipped to make informed choices when selecting wines!!
 
 ----------------------------------------------------------------------------------------------
+
+## MODELLING THE DATA
+
+From our EDA, we have identified some key features which influence the target variable- **Quality**.
+
+As part of our next analysis, we will now perform some regression models to see which model predicts the quality of wine with most accuracy.
+
+----------------------------------------------------------------------------------------------
+```{r}
+wine2<-wine
+```
+## 1. LINEAR REGRESSION
+
+```{r linear, results='asis'}
+model1 = lm(quality ~ ., data=numeric_data)
+sum_md1 = summary(model1) # also for later use on inline codes
+sum_md1
+
+```
+
+```{r fs}
+loadPkg("leaps")
+reg.best2 <- regsubsets(quality~., data = numeric_data, nbest = 2, method = "exhaustive") 
+plot(reg.best2, scale = "adjr2", main = "Adjusted R^2")
+plot(reg.best2, scale = "r2", main = "R^2")
+plot(reg.best2, scale = "bic", main = "BIC")
+plot(reg.best2, scale = "Cp", main = "Cp")
+
+```
+
+
+----------------------------------------------------------------------------------------------
+
+## 2. LOGISTIC REGRESSION
+
+For Logistic Regression, we want the outcome variable to be categorical. Hence,w e are converting all the wines from **0 to 6** to "Bad Wines" and from **6-10** as "Good Wines".
+
+
+```{r category, results='asis'}
+wine <- wine %>%
+  mutate(quality_category = ifelse(quality < 6, 0, 1))
+head(wine)
+```
+
+```{r logit}
+winelogit1 <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = wine, binomial(link = "logit"))
+summary(winelogit1)
+exp(coef(winelogit1))
+```
+
+```{r confusionMatrix, results='asis'}
+loadPkg(regclass)
+conf_matrix = confusion_matrix(winelogit1)
+
+unloadPkg(regclass)
+```
+
+```{r confresults, results="asis"}
+xkabledply(conf_matrix,"Confusion Matrix: Logit model, cutoff = 0.6")
+
+```
+
+
+```{r roc, results='asis'}
+#install.packages("pROC")
+
+loadPkg(pROC) # receiver operating characteristic curve, gives the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The curve is on sensitivity/recall/true-positive-rate vs false_alarm/false-positive-rate/fall-out.
+wine$prob=predict(winelogit1, type = c("response")) # Add new column of predicted probabilities
+h <- roc(quality_category~prob, data=wine)
+auc(h) # area-under-curve prefer 0.8 or higher.
+plot(h)
+#unloadPkg(pROC) 
+```
+
+```{r HosmerLemeshow, results='asis'}
+#### Hosmer and Lemeshow test  
+########The Hosmer and Lemeshow Goodness of Fit test can be used to evaluate logistic regression fit. 
+
+loadPkg(ResourceSelection) # function hoslem.test( ) for logit model evaluation
+winelogit1_Hoslem = hoslem.test(wine$quality_category, fitted(winelogit1)) # Hosmer and Lemeshow test, a chi-squared test
+unloadPkg(ResourceSelection) 
+winelogit1_Hoslem
+```
+
+```{r McFadden_direct, eval=FALSE}
+# We can try this just to confirm the following calculation
+wine_nulllogit1 <- glm(quality_category ~ 1, data = wine, family = "binomial")
+mcFadden = 1 - logLik(winelogit1)/logLik(wine_nulllogit1)
+mcFadden
+```
+
+
+
+```{r McFadden}
+loadPkg(pscl) # use pR2( ) function to calculate McFadden statistics for model eval
+wineLogit1pr2 = pR2(winelogit1)
+wineLogit1pr2
+unloadPkg(pscl) 
+```
+
+
+```{r accuracy, results='asis'}
+
+true_positives <- 2786
+true_negatives <- 1185
+false_positives <-794
+false_negatives <-530
+total <- 5295
+
+# Calculate accuracy
+accuracy <- (true_positives + true_negatives) / total
+cat("Accuracy of logistic regression model is", accuracy,"\n")
+
+precision <- true_positives / (true_positives + false_positives)
+cat(" Precision of logistic regression model is",  precision, "\n")
+```
+
+
+----------------------------------------------------------------------------------------------
+
+## 3. KNN 
+
+```{r knn}
+loadPkg("class")
+library(class)
+set.seed(123)
+
+sample_indices <- sample(1:nrow(wine), 0.7 * nrow(wine))
+
+train_data <- wine[sample_indices, ]
+test_data <- wine[-sample_indices, ]
+
+library(class)
+
+# Define predictors and response variable
+predictors <- names(wine)[2:13]  # Adjust column indices based on your data
+response <- "quality"
+train_data$quality_category <- as.factor(train_data$quality_category)
+
+
+k <- 5  # You can adjust the value of k
+knn_model <- knn(train = train_data[, predictors], test = test_data[, predictors], cl = train_data$quality_category, k = k)
+
+
+confusion_matrix <- table(Actual = test_data$quality_category, Predicted = knn_model)
+accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+
+# Display the confusion matrix and accuracy
+print(confusion_matrix)
+cat("Accuracy:", accuracy, "\n")
+
+str(knn_model)
+length(knn_model)
+table(knn_model)
+
+library(caret)
+set.seed(123)
+cv <- trainControl(method = "cv", number = 10)
+model <- train(quality_category ~ ., data = train_data, method = "knn", trControl = cv)
+model
+```
+
+----------------------------------------------------------------------------------------------
+
+## 4. DECISION TREES
+
+----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
