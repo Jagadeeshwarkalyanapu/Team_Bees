@@ -442,7 +442,7 @@ NULL HYPOTHESIS (H0): There is no significant difference in mean alcohol content
 
 ALTERNATE HYPOTHESIS (H1): There is significant difference in mean alcohol content across quality categories in white wine
 
-```{r anovawhitealc,results='asis'}
+```{r anovawhitealc,results='markup'}
 anova_result <- aov(alcohol ~  as.factor(quality), data = white)
 print(summary(anova_result))
 
@@ -525,7 +525,7 @@ NULL HYPOTHESIS (H0): There is no significant difference in mean density level a
 
 ALTERNATE HYPOTHESIS (H1): There is significant difference in mean density level across quality categories in red wine.
 
-```{r anovaredden,results='asis'}
+```{r anovaredden,results='markup'}
 anova_result <- aov(density ~  as.factor(quality), data = red, conf.level = 0.95)
 print(summary(anova_result))
 
@@ -885,7 +885,7 @@ wine2<-wine
 ```
 ## 1. LINEAR REGRESSION
 
-```{r linear, results='asis'}
+```{r linear, results='markup'}
 model1 = lm(quality ~ ., data=numeric_data)
 sum_md1 = summary(model1) # also for later use on inline codes
 sum_md1
@@ -916,7 +916,7 @@ wine <- wine %>%
 head(wine)
 ```
 
-```{r logit}
+```{r logit, results='markup'}
 winelogit1 <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = wine, binomial(link = "logit"))
 summary(winelogit1)
 exp(coef(winelogit1))
@@ -956,7 +956,7 @@ unloadPkg(ResourceSelection)
 winelogit1_Hoslem
 ```
 
-```{r McFadden_direct, eval=FALSE}
+```{r McFadden_direct, results='asis'}
 # We can try this just to confirm the following calculation
 wine_nulllogit1 <- glm(quality_category ~ 1, data = wine, family = "binomial")
 mcFadden = 1 - logLik(winelogit1)/logLik(wine_nulllogit1)
@@ -965,7 +965,7 @@ mcFadden
 
 
 
-```{r McFadden}
+```{r McFadden, results='markup'}
 loadPkg(pscl) # use pR2( ) function to calculate McFadden statistics for model eval
 wineLogit1pr2 = pR2(winelogit1)
 wineLogit1pr2
@@ -994,7 +994,7 @@ cat(" Precision of logistic regression model is",  precision, "\n")
 
 ## 3. KNN 
 
-```{r knn}
+```{r knn, results='markup'}
 loadPkg("class")
 library(class)
 set.seed(123)
@@ -1037,6 +1037,7 @@ model
 ----------------------------------------------------------------------------------------------
 
 ## 4. DECISION TREES
+
 
 ----------------------------------------------------------------------------------------------
 
