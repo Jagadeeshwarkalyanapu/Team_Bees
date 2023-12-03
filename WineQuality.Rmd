@@ -1139,9 +1139,15 @@ summary(white_lm_reg)
 ----------------------------------------------------------------------------------------------
 ```{r Random forest, results='markup'}
 ## 5. RANDOM FOREST
+
 # Install and load necessary libraries
 install.packages("randomForest")
+install.packages("pROC")
 library(randomForest)
+library(pROC)
+
+# Load the dataset
+data <- read.csv("winequalityN.csv")
 
 # Handle missing values by imputing with mean
 data <- na.omit(data)
@@ -1158,18 +1164,26 @@ rf_model <- randomForest(quality ~ ., data = train_data)
 # Make predictions on the test set
 predictions <- predict(rf_model, test_data)
 
-# Evaluate the accuracy of the model
-# Evaluate the accuracy of the model
-accuracy <- sum(predictions == test_data$quality) / length(predictions)
-cat("Accuracy:", accuracy, "\n")
-
-
-# Print the confusion matrix for more detailed evaluation
+# Create a confusion matrix for evaluation
 conf_matrix <- table(predictions, test_data$quality)
+print("Confusion Matrix:")
 print(conf_matrix)
 
-unique(test_data$quality)
-unique(predictions)
+# Calculate accuracy
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(paste("Accuracy:", round(accuracy, 4)))
+
+# Create a ROC curve
+roc_curve <- roc(test_data$quality, as.numeric(predictions))
+plot(roc_curve, col = "black", main = "ROC Curve for Random Forest Model",
+     col.main = "black", lwd = 2, cex.main = 1.2)
+
+# Add diagonal reference line for comparison
+abline(a = 0, b = 1, lty = 2, col = "red")
+
+# Print the AUC (Area Under the Curve)
+cat("AUC:", round(auc(roc_curve), 4), "\n")
+
 ```
 
 
