@@ -1036,15 +1036,72 @@ model
 
 ----------------------------------------------------------------------------------------------
 
-## 4. DECISION TREES
+## 4. DECISION TREES OVERALL WINE QUALITY!
+
+----------------------------------------------------------------------------------------------
+```{r}
+library(rpart)
+set.seed(123) 
+trainIndex <- sample(nrow(wine), 0.9 * nrow(wine))
+trainData <- wine[trainIndex, ]
+testData <- wine[-trainIndex, ]
+
+tree_model <- rpart(quality ~ fixed.acidity + volatile.acidity + residual.sugar + free.sulfur.dioxide + density + pH + sulphates + alcohol, data = trainData)
+
+print(summary(tree_model))
+library(rpart.plot)
+rpart.plot(tree_model, digits = 4, extra = 1)
+```
+The root node splits the full dataset based on the alcohol content of the wines, with a split point of 10.6. Wines with alcohol < 10.6 go to the left branch and wines with alcohol >= 10.6 go to the right branch.
+The left branch then further splits on volatile acidity being < or >= 0.282. This results in two leaf nodes predicting quality scores of 5.30 and 5.72 for the low and high volatility acidity wines.
+The right branch splits again on alcohol content < or >= 11.7. The left sub-branch splits once more on volatile acidity to generate two leaf nodes predicting quality of 5.51 and 6.09.
+The right-most leaf node predicts a quality score of 6.49 for wines with the highest alcohol content >= 11.7.
+So in total it has generated 5 leaf nodes predicting quality scores ranging from 5.30 to 6.49 based on 3 split points on alcohol content and 1 split point on volatile acidity.
 
 
 ----------------------------------------------------------------------------------------------
 
+## 5. LOOKING AT EACH WINE INDIVIDUALLY
+
+----------------------------------------------------------------------------------------------
+
+Preparing a training and testing for red and white wine!
+
+```{r}
+index <- sample(nrow(white), nrow(white)*0.90)
+white_train = white[index,]
+white_test = white[-index,]
 
 
+index <- sample(nrow(red), nrow(red)*0.90)
+red_train = red[index,]
+red_test = red[-index,]
+```
 
+# White wine Linear Model
 
+```{r}
+white_lm_reg <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + total.sulfur.dioxide + free.sulfur.dioxide + density + pH + sulphates + alcohol, data = white_train)
+summary(white_lm_reg)
+```
+Of the 11 predictors, 7 have statistically significant coefficients based on the t-tests (Pr(>|t|)):
+fixed acidity
+citric acid 
+residual sugar 
+free sulfur dioxide
+density
+pH
+sulphates
+alcohol
+Volatile acidity has by far the largest coefficient magnitude (-1.60), indicating it has a strong negative association with quality when holding other predictors constant.
+The model achieves an R-squared of 0.293, meaning the predictors explain 29.3% of the variance in wine quality.
+
+Rebuilding the model by removing all the non significant values:
+
+```{r}
+white_lm_reg <- lm(quality ~ fixed.acidity + citric.acid + residual.sugar + free.sulfur.dioxide + density + pH + sulphates + alcohol, data = white_train)
+summary(white_lm_reg)
+```
 
 
 
