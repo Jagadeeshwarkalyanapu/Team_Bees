@@ -1058,6 +1058,39 @@ The right branch splits again on alcohol content < or >= 11.7. The left sub-bran
 The right-most leaf node predicts a quality score of 6.49 for wines with the highest alcohol content >= 11.7.
 So in total it has generated 5 leaf nodes predicting quality scores ranging from 5.30 to 6.49 based on 3 split points on alcohol content and 1 split point on volatile acidity.
 
+```{r}
+install.packages("rpart")
+library(rpart)
+
+# Load your dataset (assuming 'wine_data' is your data frame)
+# Replace 'wine_data.csv' with your actual file or data
+wine_data <- read.csv("winequalityN.csv")
+
+# Check for missing values
+# If there are missing values, you might need to handle them before building the model
+
+# Assuming 'quality' is your target variable
+# Split the data into training and testing sets
+set.seed(123)  # For reproducibility
+sample_index <- sample(1:nrow(wine_data), 0.8 * nrow(wine_data))
+train_data <- wine_data[sample_index, ]
+test_data <- wine_data[-sample_index, ]
+
+# Build the decision tree model
+wine_tree <- rpart(quality ~ ., data = train_data, method = "class")
+
+# Make predictions on the test set
+predictions <- predict(wine_tree, test_data, type = "class")
+
+# Evaluate the model
+conf_matrix <- table(predictions, test_data$quality)
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+
+# Display the confusion matrix and accuracy
+print("Confusion Matrix:")
+print(conf_matrix)
+print(paste("Accuracy: ", round(accuracy, 4)))
+```
 
 ----------------------------------------------------------------------------------------------
 
