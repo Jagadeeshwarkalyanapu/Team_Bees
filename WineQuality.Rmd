@@ -1136,7 +1136,44 @@ white_lm_reg <- lm(quality ~ fixed.acidity + citric.acid + residual.sugar + free
 summary(white_lm_reg)
 ```
 
+----------------------------------------------------------------------------------------------
+```{r Random forest, results='markup'}
+## 5. RANDOM FOREST
+# Install and load necessary libraries
+install.packages("randomForest")
+library(randomForest)
 
+# Handle missing values by imputing with mean
+data <- na.omit(data)
+
+# Split the dataset into training and testing sets
+set.seed(123)
+train_indices <- sample(1:nrow(data), 0.8 * nrow(data))
+train_data <- data[train_indices, ]
+test_data <- data[-train_indices, ]
+
+# Train the Random Forest model
+rf_model <- randomForest(quality ~ ., data = train_data)
+
+# Make predictions on the test set
+predictions <- predict(rf_model, test_data)
+
+# Evaluate the accuracy of the model
+# Evaluate the accuracy of the model
+accuracy <- sum(predictions == test_data$quality) / length(predictions)
+cat("Accuracy:", accuracy, "\n")
+
+
+# Print the confusion matrix for more detailed evaluation
+conf_matrix <- table(predictions, test_data$quality)
+print(conf_matrix)
+
+unique(test_data$quality)
+unique(predictions)
+```
+
+
+---------------------------------------------------------------------------------------------
 
 
 
