@@ -1059,6 +1059,7 @@ The right-most leaf node predicts a quality score of 6.49 for wines with the hig
 So in total it has generated 5 leaf nodes predicting quality scores ranging from 5.30 to 6.49 based on 3 split points on alcohol content and 1 split point on volatile acidity.
 
 ```{r}
+# Install and load necessary packages
 install.packages("rpart")
 library(rpart)
 
@@ -1076,8 +1077,9 @@ sample_index <- sample(1:nrow(wine_data), 0.8 * nrow(wine_data))
 train_data <- wine_data[sample_index, ]
 test_data <- wine_data[-sample_index, ]
 
-# Build the decision tree model
-wine_tree <- rpart(quality ~ ., data = train_data, method = "class")
+# Hyperparameter tuning
+control <- rpart.control(maxdepth = 10, minsplit = 10, cp = 0.001)
+wine_tree <- rpart(quality ~ ., data = train_data, method = "class", control = control)
 
 # Make predictions on the test set
 predictions <- predict(wine_tree, test_data, type = "class")
