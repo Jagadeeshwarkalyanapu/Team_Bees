@@ -1060,7 +1060,7 @@ So in total it has generated 5 leaf nodes predicting quality scores ranging from
 
 ```{r Decision Trees, results='markup'}
 # Load necessary packages
-install.packages("rpart")
+#install.packages("rpart")
 library(rpart)
 library(rpart.plot)
 
@@ -1153,8 +1153,8 @@ summary(white_lm_reg)
 ```{r Random forest, results='markup'}
 
 # Install and load necessary libraries
-install.packages("randomForest")
-install.packages("pROC")
+#install.packages("randomForest")
+#install.packages("pROC")
 library(randomForest)
 library(pROC)
 
