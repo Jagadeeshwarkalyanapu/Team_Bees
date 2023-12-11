@@ -668,7 +668,7 @@ tukey_test
 ## 4. CITRIC ACID VS QUALITY
 
 ```{r citric, results='asis'}
-
+library(ggplot2)
 ggplot(wine, aes(x = factor(quality), y = citric.acid)) +
   geom_boxplot(fill = "lightpink") +
   labs(x = "Quality", y = "Citric Acid") +
@@ -885,13 +885,6 @@ wine2<-wine
 ```
 ## 1. LINEAR REGRESSION
 
-```{r linear, results='markup'}
-model1 = lm(quality ~ ., data=numeric_data)
-sum_md1 = summary(model1) # also for later use on inline codes
-sum_md1
-
-```
-
 ```{r fs}
 loadPkg("leaps")
 reg.best2 <- regsubsets(quality~., data = numeric_data, nbest = 2, method = "exhaustive") 
@@ -901,7 +894,23 @@ plot(reg.best2, scale = "bic", main = "BIC")
 plot(reg.best2, scale = "Cp", main = "Cp")
 
 ```
+```{r linear, results='markup'}
+model1 = lm(quality ~ volatile.acidity+residual.sugar+free.sulfur.dioxide+total.sulfur.dioxide+pH+sulphates+alcohol, data=numeric_data)
+sum_md1 = summary(model1) # also for later use on inline codes
+sum_md1
 
+predicted_values <- predict(model1, newdata = numeric_data)
+
+# Calculate residuals (the differences between predicted and actual values)
+residuals <- predicted_values - numeric_data$quality
+
+# Calculate Mean Squared Error (MSE)
+mse <- mean(residuals^2)
+print(sqrt(0.53))
+
+cat("MSE",mse,"\n")
+
+```
 
 ----------------------------------------------------------------------------------------------
 
@@ -1018,10 +1027,13 @@ knn_model <- knn(train = train_data[, predictors], test = test_data[, predictors
 
 confusion_matrix <- table(Actual = test_data$quality_category, Predicted = knn_model)
 accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+precision <-confusion_matrix[2,2]/sum(diag(confusion_matrix))
+confusion_matrix
 
 # Display the confusion matrix and accuracy
 print(confusion_matrix)
 cat("Accuracy:", accuracy, "\n")
+cat("Precision :", precision, "\n")
 
 str(knn_model)
 length(knn_model)
@@ -1095,6 +1107,7 @@ predictions <- predict(tree_model, test_data[, selected_columns], type = "class"
 # Evaluate the model
 conf_matrix <- table(predictions, test_data$quality)
 accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+precision<-
 
 # Display the confusion matrix and accuracy
 print("Confusion Matrix:")
