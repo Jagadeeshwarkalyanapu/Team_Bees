@@ -116,7 +116,7 @@ We use quality as our base factor and have constructed our analysis around. The 
 ## Research Questions - SMART QUESTIONS!
 
 1.	Which chemical attribute has the most **significant** influence on wine quality?
-2.	How does the distribution of sugar, sulfate, chloride, pH, and alcohol content change over             **different quality categories**?
+2.	How does the distribution of sugar, sulfate, chloride, pH, and alcohol content change over  **different quality categories**?
 3.	From the above analysis how is it **different between red and white wine?**
 
 
@@ -634,7 +634,7 @@ grid.arrange(p1,p2,p3,p4,nrow=2)
 
 **Observations:**
 
-1. White Wines have more sugar concentration than red wines. This might explain why white       wines are usually sweeter.
+1. White Wines have more sugar concentration than red wines. This might explain why white wines are usually sweeter.
 
 2. Red wines contain high chloride and sulphate concentrations.
 
