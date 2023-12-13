@@ -791,7 +791,8 @@ plot(reg.best2, scale = "bic", main = "BIC")
 plot(reg.best2, scale = "Cp", main = "Cp")
 ```
 
-We can see from the results of exhaustive forward method of feature selection, the best $ adjusted R^2$ score and lowest BIC score are for these 7 features.
+We can see from the results of exhaustive forward method of feature selection, the best 
+$adjusted R^2$ score and lowest BIC score are for these 7 features.
 
 1. `volatile.acidity`
 
@@ -896,6 +897,7 @@ xkabledply(conf_matrix,"Confusion Matrix: Logit model, cutoff = 0.6")
 
 ```
 **Observations**
+
 1. The model shows a respectable degree of predictive ability by predicting more true positives and true negatives than false positives and negatives.
 
 2. However, there are comparatively many false positives, which could be problematic given the particular expenses or hazards connected to a false positive result in the particular situation.

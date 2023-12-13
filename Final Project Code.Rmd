@@ -852,7 +852,7 @@ plot(reg.best2, scale = "Cp", main = "Cp")
 
 ```
 
-We can see from the results of exhaustive forward method of feature selection, the best $ adjusted R^2$ score and lowest BIC score are for these 7 features.
+We can see from the results of exhaustive forward method of feature selection, the best $adjusted R^2$ score and lowest BIC score are for these 7 features.
 
 1. `volatile.acidity`
 
