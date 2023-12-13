@@ -41,6 +41,23 @@ options(scientific=T, digits = 3)
 # options(scipen=9, digits = 3) 
 ```
 
+```{r basic, include=F}
+# use this function to conveniently load libraries and work smoothly with knitting
+# can add quietly=T option to the require() function
+loadPkg = function(pkg, character.only = FALSE) { 
+  if (!character.only) { pkg <- as.character(substitute(pkg)) }
+  pkg <- ifelse(!character.only, as.character(substitute(pkg)) , pkg)  
+  if (!require(pkg,character.only=T, quietly =T)) {  install.packages(substitute(pkg),dep=T); if(!require(pkg,character.only=T)) stop("Package not found") } 
+}
+loadPkg(knitr)
+
+# unload/detact package when done using it
+unloadPkg = function(pkg, character.only = FALSE) { 
+  if(!character.only) { pkg <- as.character(substitute(pkg)) } 
+  search_item <- paste("package", pkg,sep = ":") 
+  while(search_item %in% search()) { detach(search_item, unload = TRUE, character.only = TRUE) } 
+}
+```
 ## Introduction
 
 ### Abstract
@@ -816,6 +833,8 @@ Using chemical predictors, a logistic regression model was employed to forecast 
 
 
 ```{r confusionmatrix, echo=FALSE}
+#install.packages("regclass")
+#library(regclass)
 loadPkg(regclass)
 conf_matrix = confusion_matrix(winelogit1)
 
@@ -1001,7 +1020,7 @@ A MORE BALANCED SET OF DATA WILL IMPROVE OUR ANALYSIS.
 
 Through our exploration of wine quality we have come across some discoveries that challenge wine making beliefs. While **alcohol content, sugar levels and acidity** are known factors we have found that attributes, like **density and chlorides** also play roles in shaping the quality of wine. These elements contribute in ways that captivate our senses and define what truly makes a bottle of wine.
 
-Moreover we have delved into the contrast between white wines going beyond mere color differences to uncover deeper variations in chemical composition and sensory profiles. By understanding these distinctions we empower wine enthusiasts and consumers to make choices based on their personal preferences and specific occasions. With the support of tests such as the **T Test** to check if there is a *significant difference between the factors for red nd white wine* and **ANOVA Tests** to find how these factors *vary across different quality ratings in red and white wine* our findings are substantiated by evidence establishing a strong framework for comprehending the intricate interplay of variables that influence wine quality. 
+Moreover we have delved into the contrast between white wines going beyond mere color differences to uncover deeper variations in chemical composition and sensory profiles. By understanding these distinctions we empower wine enthusiasts and consumers to make choices based on their personal preferences and specific occasions. With the support of tests such as the **T Test** to check if there is a *significant difference between the factors for red qnd white wine* and **ANOVA Tests** to find how these factors *vary across different quality ratings in red and white wine* our findings are substantiated by evidence establishing a strong framework for comprehending the intricate interplay of variables that influence wine quality. 
 
 Equipped with this knowledge let us raise our glasses to the fusion of data science and wine making artistry. We also hope that one uses this knowledge to buy great wines.
 
