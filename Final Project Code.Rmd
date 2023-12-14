@@ -1158,92 +1158,99 @@ We hope to improve our predictive model in this ongoing investigation to deliver
 
 ----------------------------------------------------------------------------------------------
 
-## ANALYSIS AND MODELING FOR RED AND WHITE WINE
 
-Through feature selection we have found out the qualities affecting the wine quality overall, Now let us see with respect to each wine individually!
+<!-- Keeping in mind your comments after our presentation, we have also done a quick logistic regression on the individual quality of white and red wine. Feel free to un comment to check out the results. -->
 
-```{r}
-red <- wine[wine$type == "red", ]
-white <- wine[wine$type == "white", ]
-```
+<!-- ## ANALYSIS AND MODELING FOR RED AND WHITE WINE -->
 
-```{r}
-white <- white %>%
-mutate(quality_category = ifelse(quality < 6, 0, 1))
-head(white)
-```
-```{r}
-winelogit1_white <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = white, binomial(link = "logit"))
-summary(winelogit1_white)
-exp(coef(winelogit1_white))
-```
-```{r }
-loadPkg(regclass)
-conf_matrix_white = confusion_matrix(winelogit1_white)
-unloadPkg(regclass)
-```
-
-```{r}
-xkabledply(conf_matrix_white,"Confusion Matrix: Logit model, cutoff = 0.6")
-```
-
-```{r }
-
-true_positives_white <- 
-true_negatives_white <- 
-false_positives_white <-
-false_negatives_white <-
-total <- 
-
-# Calculate accuracy
-accuracy <- (true_positives_white + true_negatives_white) / total
-cat("Accuracy of logistic regression model for white wine is", accuracy,"\n")
-
-precision <- true_positives_white / (true_positives_white + false_positives_white)
-cat(" Precision of logistic regression model for white wine is",  precision, "\n")
-```
-
-## RESULTS FOR WHITE WINE:
+<!-- Through feature selection we have found out the qualities affecting the wine quality overall, Now let us see with respect to each wine individually! -->
 
 
-```{r}
-red <- red %>%
-mutate(quality_category = ifelse(quality < 6, 0, 1))
-head(white)
-```
+<!-- ## RESULTS FOR WHITE WINE: -->
 
-```{r}
-winelogit1_red <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = red, binomial(link = "logit"))
-summary(winelogit1_red)
-exp(coef(winelogit1_red))
-```
+<!-- ```{r} -->
+<!-- red <- wine[wine$type == "red", ] -->
+<!-- white <- wine[wine$type == "white", ] -->
+<!-- ``` -->
 
-```{r }
-loadPkg(regclass)
-conf_matrix_red = confusion_matrix(winelogit1_red)
-unloadPkg(regclass)
-```
+<!-- ```{r} -->
+<!-- white <- white %>% -->
+<!-- mutate(quality_category = ifelse(quality < 6, 0, 1)) -->
+<!-- head(white) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- winelogit1_white <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = white, binomial(link = "logit")) -->
+<!-- summary(winelogit1_white) -->
+<!-- exp(coef(winelogit1_white)) -->
+<!-- ``` -->
+<!-- ```{r } -->
+<!-- loadPkg(regclass) -->
+<!-- conf_matrix_white = confusion_matrix(winelogit1_white) -->
+<!-- unloadPkg(regclass) -->
+<!-- ``` -->
 
-```{r }
-xkabledply(conf_matrix_red,"Confusion Matrix: Logit model, cutoff = 0.6")
-```
+<!-- ```{r} -->
+<!-- xkabledply(conf_matrix_white,"Confusion Matrix: Logit model, cutoff = 0.6") -->
+<!-- ``` -->
 
-```{r}
-true_positives_red <- 
-true_negatives_red <- 
-false_positives_red <-
-false_negatives_red <-
-total <- 
+<!-- ```{r } -->
 
-# Calculate accuracy
-accuracy_red <- (true_positives_red + true_negatives_red) / total
-cat("Accuracy of logistic regression model for white wine is", accuracy_red,"\n")
+<!-- true_positives_white <- 2266 -->
+<!-- true_negatives_white <- 708 -->
+<!-- false_positives_white <- 633 -->
+<!-- false_negatives_white <- 335 -->
+<!-- total <- 3942 -->
 
-precision_red <- true_positives_red / (true_positives_red + false_positives_red)
-cat(" Precision of logistic regression model for white wine is",  precision_red, "\n")
-```
+<!-- # Calculate accuracy -->
+<!-- accuracy <- (true_positives_white + true_negatives_white) / total -->
+<!-- cat("Accuracy of logistic regression model for white wine is", accuracy,"\n") -->
 
-## RESULTS FOR RED WINE
+<!-- precision <- true_positives_white / (true_positives_white + false_positives_white) -->
+<!-- cat(" Precision of logistic regression model for white wine is",  precision, "\n") -->
+<!-- ``` -->
+
+
+<!-- ## RESULTS FOR RED WINE -->
+
+
+<!-- ```{r} -->
+<!-- red <- red %>% -->
+<!-- mutate(quality_category = ifelse(quality < 6, 0, 1)) -->
+<!-- head(white) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- winelogit1_red <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = red, binomial(link = "logit")) -->
+<!-- summary(winelogit1_red) -->
+<!-- exp(coef(winelogit1_red)) -->
+<!-- ``` -->
+
+<!-- ```{r } -->
+<!-- loadPkg(regclass) -->
+<!-- conf_matrix_red = confusion_matrix(winelogit1_red) -->
+<!-- unloadPkg(regclass) -->
+<!-- ``` -->
+
+<!-- ```{r } -->
+<!-- xkabledply(conf_matrix_red,"Confusion Matrix: Logit model, cutoff = 0.6") -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- true_positives_red <- 525 -->
+<!-- true_negatives_red <- 477 -->
+<!-- false_positives_red <- 161 -->
+<!-- false_negatives_red <- 190 -->
+<!-- total <- 1353 -->
+
+<!-- # Calculate accuracy -->
+<!-- accuracy_red <- (true_positives_red + true_negatives_red) / total -->
+<!-- cat("Accuracy of logistic regression model for white wine is", accuracy_red,"\n") -->
+
+<!-- precision_red <- true_positives_red / (true_positives_red + false_positives_red) -->
+<!-- cat(" Precision of logistic regression model for white wine is",  precision_red, "\n") -->
+<!-- ``` -->
+
+
 
 
 
