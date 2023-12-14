@@ -1098,7 +1098,7 @@ rpart.plot(tree_model, digits = 4, extra = 1)
 ----------------------------------------------------------------------------------------------
 
 
-## Results
+## RESULTS
 
 1. Wines with **higher alcohol content, increased citric acid levels, lower density, and less chlorides** tend to exhibit **higher quality**.
 
@@ -1121,7 +1121,7 @@ rpart.plot(tree_model, digits = 4, extra = 1)
 ----------------------------------------------------------------------------------------------
 
 
-## Limitations and Future scope
+## LIMITATIONS AND FUTURE SCOPE
 
 Although we thoroughly believe in our analysis, we have to mention a few anomalies that are present that may or may not have influenced the results.
 
@@ -1136,7 +1136,7 @@ A MORE BALANCED SET OF DATA WILL IMPROVE OUR ANALYSIS.
 
 ----------------------------------------------------------------------------------------------
 
-## Conclusions
+## CONCLUSIONS
 
 Through our exploration of wine quality we have come across some discoveries that challenge wine making beliefs. While **alcohol content, sugar levels and acidity** are known factors we have found that attributes, like **density and chlorides** also play roles in shaping the quality of wine. These elements contribute in ways that captivate our senses and define what truly makes a bottle of wine.
 
@@ -1150,7 +1150,7 @@ Equipped with this knowledge let us raise our glasses to the fusion of data scie
 
 ----------------------------------------------------------------------------------------------
 
-## Additional Insights
+## ADDITIONAL INSIGHTS
 
 Even if our present investigation has been fascinating, we understand that the quest to predict wine quality is a dynamic endeavour. Our commitment to gaining deeper insights is demonstrated by our efforts to include a wider range of attributes that affect wine quality to our dataset. This growth is a calculated step towards a more comprehensive knowledge of the complex process of wine making, not just an increase in data. We want to build a predictive model that goes into the nuances of winemaking and captures every detail that contributes to wine greatness by incorporating a wider variety of variables.
 
@@ -1158,6 +1158,92 @@ We hope to improve our predictive model in this ongoing investigation to deliver
 
 ----------------------------------------------------------------------------------------------
 
+## ANALYSIS AND MODELING FOR RED AND WHITE WINE
+
+Through feature selection we have found out the qualities affecting the wine quality overall, Now let us see with respect to each wine individually!
+
+```{r}
+red <- wine[wine$type == "red", ]
+white <- wine[wine$type == "white", ]
+```
+
+```{r}
+white <- white %>%
+mutate(quality_category = ifelse(quality < 6, 0, 1))
+head(white)
+```
+```{r}
+winelogit1_white <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = white, binomial(link = "logit"))
+summary(winelogit1_white)
+exp(coef(winelogit1_white))
+```
+```{r }
+loadPkg(regclass)
+conf_matrix_white = confusion_matrix(winelogit1_white)
+unloadPkg(regclass)
+```
+
+```{r}
+xkabledply(conf_matrix_white,"Confusion Matrix: Logit model, cutoff = 0.6")
+```
+
+```{r }
+
+true_positives_white <- 
+true_negatives_white <- 
+false_positives_white <-
+false_negatives_white <-
+total <- 
+
+# Calculate accuracy
+accuracy <- (true_positives_white + true_negatives_white) / total
+cat("Accuracy of logistic regression model for white wine is", accuracy,"\n")
+
+precision <- true_positives_white / (true_positives_white + false_positives_white)
+cat(" Precision of logistic regression model for white wine is",  precision, "\n")
+```
+
+## RESULTS FOR WHITE WINE:
+
+
+```{r}
+red <- red %>%
+mutate(quality_category = ifelse(quality < 6, 0, 1))
+head(white)
+```
+
+```{r}
+winelogit1_red <- glm(quality_category ~volatile.acidity+residual.sugar+pH+sulphates+alcohol+free.sulfur.dioxide+total.sulfur.dioxide, data = red, binomial(link = "logit"))
+summary(winelogit1_red)
+exp(coef(winelogit1_red))
+```
+
+```{r }
+loadPkg(regclass)
+conf_matrix_red = confusion_matrix(winelogit1_red)
+unloadPkg(regclass)
+```
+
+```{r }
+xkabledply(conf_matrix_red,"Confusion Matrix: Logit model, cutoff = 0.6")
+```
+
+```{r}
+true_positives_red <- 
+true_negatives_red <- 
+false_positives_red <-
+false_negatives_red <-
+total <- 
+
+# Calculate accuracy
+accuracy_red <- (true_positives_red + true_negatives_red) / total
+cat("Accuracy of logistic regression model for white wine is", accuracy_red,"\n")
+
+precision_red <- true_positives_red / (true_positives_red + false_positives_red)
+cat(" Precision of logistic regression model for white wine is",  precision_red, "\n")
+```
+
+## RESULTS FOR RED WINE
 
 
 
